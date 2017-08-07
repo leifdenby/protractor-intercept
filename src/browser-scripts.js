@@ -30,7 +30,11 @@ export function openListener () {
     window.httpRequests = window.httpRequests || []
     window._open = open
     XMLHttpRequest.prototype.open = function () {
-      window.httpRequests.push(this)
+
+      this.addEventListener('load', function() {
+        window.httpRequests.push(this)
+      });
+
       return open.apply(this, arguments)
     }
   })(XMLHttpRequest.prototype.open)
